@@ -17,7 +17,6 @@ public class DbConnect {
             System.out.println(e);
         }
     }
-
     private String buildQuery(Log log){
         String query;
         double transactionAmount;
