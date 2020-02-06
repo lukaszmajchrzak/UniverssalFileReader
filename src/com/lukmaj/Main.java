@@ -12,6 +12,7 @@ package com.lukmaj;
 public class Main {
 
     public static void main(String[] args) {
-
+        Markers markers = new Markers();
+        DBManager dbManager = new DBManager(markers);
     }
 }
