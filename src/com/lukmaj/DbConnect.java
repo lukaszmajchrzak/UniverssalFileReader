@@ -3,7 +3,7 @@ package com.lukmaj;
 import java.sql.*;
 
 public class DbConnect {
-    private Connection con;
+    protected Connection con;
     public void connect() {
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");
