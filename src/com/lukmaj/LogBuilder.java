@@ -18,7 +18,7 @@ import static java.util.Map.Entry.comparingByKey;
 import static java.util.stream.Collectors.toMap;
 
 public class LogBuilder extends DbConnect {
-
+    private String tableName;
     private Map<String, String> records = new HashMap<>();
     private Map<String, String> dataTypes = new HashMap<>();
     private Map<String, String> sortedRecords = new HashMap<>();
@@ -37,11 +37,17 @@ public class LogBuilder extends DbConnect {
         dataTypes.put("Char", "CHAR");
         dataTypes.put("STRING", "VARCHAR(255)");
     }
-
+    public Map<String,String> getDataType(){
+        return dataTypes;
+    }
     public void addRecords(String recordName, String value) {
         if (dataTypes.containsValue(value)) {
             addRecord(recordName, dataTypes.get(value));
         }
+    }
+
+    public String getTableName() {
+        return tableName;
     }
 
     private void addRecord(String recordName, String dataType) {
@@ -73,7 +79,46 @@ public class LogBuilder extends DbConnect {
         }
         return query;
     }
+    private void getExistingLogTables(String tableName){
+        super.connect();
+        try{
+            Statement stmt = super.con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='"+tableName+"'");
+            while(rs.next()){
+                System.out.println(rs);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    protected void getMarkersFromColumns(String TableName){
+        ArrayList<String> markers = new ArrayList<>();
 
+        super.connect();
+        try{
+            Statement stmt = super.con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='"+tableName+"'");
+            while(rs.next()){
+                markers.add(rs.getString(1));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void getAllExisting(){
+        super.connect();
+        try{
+            Statement stmt = super.con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM INFROMATION_SCHEMA.TABLES");
+            while(rs.next()){
+                System.out.println(rs.getString(1));
+                getExistingLogTables(rs.getString(1));
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     private boolean isExist(String tableName) {
         super.connect();
         boolean exist = false;
@@ -92,16 +137,32 @@ public class LogBuilder extends DbConnect {
     }
 
     public boolean createLogTable() {
-        boolean isCreated = false;
-
         super.connect();
         try {
             Statement stmt = super.con.createStatement();
             stmt.executeUpdate("CREATE TABLE " + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
-            isCreated = true;
+            this.tableName = Integer.toString(buildCreateTableQuery().hashCode());
+           return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return isCreated;
+        return false;
     }
+
+    public boolean isTableExisting(String tableName){
+        try{
+            Statement stmt = super.con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES");
+            while(rs.next()){
+                if(rs.getString(1).equals(tableName))
+                    return true;
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+
 }
