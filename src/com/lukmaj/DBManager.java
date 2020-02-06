@@ -7,6 +7,8 @@
  * @method chooseMarkers - allows to choose markers which were read from the example file
  * @method getExistingTables -> super.getAllExistingTables
  * @method chooseFromExisting sets <param>this.tableName</param> for existing table
+ * @method createTable - Checks if query String's hashCode() doesn't exist as a name in db and creates a table with tablename=query.hashCode(), and markers as columns
+ *
  */
 package com.lukmaj;
 
