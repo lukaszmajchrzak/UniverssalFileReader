@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/UniverssalFileReader.iml" filepath="$PROJECT_DIR$/UniverssalFileReader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UniversalFileReader.iml" filepath="$PROJECT_DIR$/UniversalFileReader.iml" />
     </modules>
   </component>
 </project>
