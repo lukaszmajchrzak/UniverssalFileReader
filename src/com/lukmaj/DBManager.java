@@ -4,6 +4,9 @@
  *                     second is record value
  *                     all taken from XML file.
  * @param xmlMarker - markers < and /> used in XML files
+ * @method chooseMarkers - allows to choose markers which were read from the example file
+ * @method getExistingTables -> super.getAllExistingTables
+ * @method chooseFromExisting sets <param>this.tableName</param> for existing table
  */
 package com.lukmaj;
 
@@ -20,9 +23,11 @@ public class DBManager extends LogBuilder {
     public DBManager(Markers markers) {
         this.markers = markers;
     }
+
     public void getMarkers(){
         getMarkersFromColumns(this.tableName);
     }
+
     public void chooseMarkers(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Available Markers: ");
@@ -47,6 +52,13 @@ public class DBManager extends LogBuilder {
                         super.addRecords(scanning,dType);
                     } else System.out.println("data type not found");
             } else System.out.println("Marker not found!");
+        }
+    }
+
+    public void createTable(){
+        if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){
+            createLogTable();
+            tableName = super.getTableName();
         }
     }
 

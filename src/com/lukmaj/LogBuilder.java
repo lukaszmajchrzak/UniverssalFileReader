@@ -18,7 +18,7 @@ import static java.util.Map.Entry.comparingByKey;
 import static java.util.stream.Collectors.toMap;
 
 public class LogBuilder extends DbConnect {
-    private String tableName;
+    private String tableName="";
     private Map<String, String> records = new HashMap<>();
     private Map<String, String> dataTypes = new HashMap<>();
     private Map<String, String> sortedRecords = new HashMap<>();
@@ -71,7 +71,7 @@ public class LogBuilder extends DbConnect {
         return sortedRecords;
     }
 
-    private String buildCreateTableQuery() {
+    protected String buildCreateTableQuery() {
         sortedRecords = sortRecords();
         String query = "";
         for (Map.Entry<String, String> entry : sortedRecords.entrySet()) {
@@ -119,22 +119,22 @@ public class LogBuilder extends DbConnect {
             e.printStackTrace();
         }
     }
-    private boolean isExist(String tableName) {
-        super.connect();
-        boolean exist = false;
-        try {
-            Statement stmt = super.con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME ='" + tableName + "'");
-            while (rs.next()) {
-                exist = true;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        super.close();
-        return exist;
-    }
+//    private boolean isExist(String tableName) {
+//        super.connect();
+//        boolean exist = false;
+//        try {
+//            Statement stmt = super.con.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME ='" + tableName + "'");
+//            while (rs.next()) {
+//                exist = true;
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        super.close();
+//        return exist;
+//    }
 
     public boolean createLogTable() {
         super.connect();
