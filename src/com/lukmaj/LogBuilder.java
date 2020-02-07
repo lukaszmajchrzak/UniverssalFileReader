@@ -1,12 +1,3 @@
-/**
-
- * @param records - Map of records which will be typed by user
- * @param sortedRecords - records sorted alphabetically - for identical string.hashCode()
- * @param dataTypes - Map of dataTypes available IN SQL and compared to
- *
- * @method createlogTabe - creates table where table name is hashCode() of String which contains all of the column & types
- *
- */
 package com.lukmaj;
 
 import java.sql.ResultSet;
@@ -40,6 +31,12 @@ public class LogBuilder extends DbConnect {
     public Map<String,String> getDataType(){
         return dataTypes;
     }
+
+    /**
+     * <p> Adds record from Markers which include: marker (column in database), SQL data type</p>
+     * @param recordName - XML Marker
+     * @param value - SQL Data type
+     */
     public void addRecords(String recordName, String value) {
         if (dataTypes.containsValue(value)) {
             addRecord(recordName, dataTypes.get(value));
@@ -66,11 +63,19 @@ public class LogBuilder extends DbConnect {
         return sorted;
     }
 
+    /**
+     * <p>< Method created for further usage /p><
+     * @return alphabetically sorted map of records (marker ; dataType)
+     */
     public Map<String, String> getSortedRecords() {
         sortedRecords = sortRecords();
         return sortedRecords;
     }
 
+    /**
+     * <p> builds query string using records </p>
+     * @return query string which will be used for SQL Create table query
+     */
     protected String buildCreateTableQuery() {
         sortedRecords = sortRecords();
         String query = "";
@@ -90,7 +95,13 @@ public class LogBuilder extends DbConnect {
         } catch (SQLException e){
             e.printStackTrace();
         }
+        super.close();
     }
+
+    /**
+     * <p> Method reads all column names from specified table</p>
+     * @param TableName - table name, which is hashCode of query string
+     */
     protected void getMarkersFromColumns(String TableName){
         ArrayList<String> markers = new ArrayList<>();
 
@@ -104,8 +115,12 @@ public class LogBuilder extends DbConnect {
         } catch (SQLException e){
             e.printStackTrace();
         }
+        super.close();
     }
 
+    /**
+     * <p> Method prints all existing log tables in database</p>
+     */
     public void getAllExisting(){
         super.connect();
         try{
@@ -118,24 +133,15 @@ public class LogBuilder extends DbConnect {
         } catch(SQLException e){
             e.printStackTrace();
         }
+        super.close();
     }
-//    private boolean isExist(String tableName) {
-//        super.connect();
-//        boolean exist = false;
-//        try {
-//            Statement stmt = super.con.createStatement();
-//            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME ='" + tableName + "'");
-//            while (rs.next()) {
-//                exist = true;
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        super.close();
-//        return exist;
-//    }
 
+    /**
+     * <p> Method creates log table using pre-built query
+     *  query is builded from records (records are sorted alphabetically). Each record is a new column in dabatase
+     *  table name is hashCode() of query </p>
+     * @return true if table is created, false if not
+     */
     public boolean createLogTable() {
         super.connect();
         try {
@@ -146,9 +152,15 @@ public class LogBuilder extends DbConnect {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        super.close();
         return false;
     }
 
+    /**
+     * <p> Method checks if table already exist in database</p>
+     * @param tableName - table name which will be checked in database
+     * @return true if table is found in database, false if not
+     */
     public boolean isTableExisting(String tableName){
         try{
             Statement stmt = super.con.createStatement();
@@ -160,6 +172,7 @@ public class LogBuilder extends DbConnect {
         } catch(SQLException e){
             e.printStackTrace();
         }
+        super.close();
         return false;
     }
 

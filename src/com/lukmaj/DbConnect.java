@@ -4,6 +4,12 @@ import java.sql.*;
 
 public class DbConnect {
     protected Connection con;
+
+    /**
+     * <p> Method connects to database using connection string typed in connectionString.xml file
+     *
+     * to read the file method runs ConnectionReader.readConnectionString()</p>
+     */
     public void connect() {
         ConnectionReader conReader = new ConnectionReader();
         conReader.readConnectionString();
@@ -32,6 +38,10 @@ public class DbConnect {
         return query;
     }
 
+    /**
+     * <p> Method will be deleted soon </p>
+     * @param log
+     */
     public void insertLog(Log log){
         try {
             Statement stmt = this.con.createStatement();
@@ -46,6 +56,10 @@ public class DbConnect {
         }
     }
 
+    /**
+     * <p> Methods pull path from Database </p>
+     * @return path as a String
+     */
     public String getPath(){
         String path=null;
         try{
@@ -60,6 +74,9 @@ public class DbConnect {
         return path;
     }
 
+    /**
+     * <p> Method closes connection to database</p>
+     */
     public void close(){
         try{
             con.close();

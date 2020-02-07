@@ -1,6 +1,4 @@
-/**
- * @method readFiles - Open files in location and read all of the markers and puts them arrayList in Markers class
- */
+
 package com.lukmaj;
 
 import java.io.*;
@@ -10,8 +8,15 @@ import java.util.Scanner;
  // "jdbc:mysql://127.0.0.10:3306/db", "lukmaj", "LukMaj123$%^");
 public class ConnectionReader {
     private Map<String,String> connectionDetails = new HashMap<>();
+
+     /**
+      * @param connectionString - String which contains built connectionString for DBConnect class
+      */
     private String connectionString;
 
+     /**
+      * @map connectionDetails is loaded in constructor
+      */
      public ConnectionReader() {
          connectionDetails.put("IP","");
          connectionDetails.put("Username","");
@@ -20,6 +25,9 @@ public class ConnectionReader {
          connectionDetails.put("jdbc","");
      }
 
+     /**
+      * <p> Method reads connection string details from connectionString.xml file and builds connectionString  </p>
+      */
      public void readConnectionString(){
         File file = new File("connectionString.xml");
         readFromFile(file);
@@ -59,6 +67,11 @@ public class ConnectionReader {
         }
 
     }
+
+     /**
+      *
+      * @return connectionString which contains connection string built from connectionsString.xml file
+      */
         public String getConnectionString () {
             return connectionString;
         }

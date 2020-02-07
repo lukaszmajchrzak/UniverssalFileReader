@@ -1,15 +1,3 @@
-/**
- * @param logContainer - map used for values which will be stored as logs
- *                     first is record name
- *                     second is record value
- *                     all taken from XML file.
- * @param xmlMarker - markers < and /> used in XML files
- * @method chooseMarkers - allows to choose markers which were read from the example file
- * @method getExistingTables -> super.getAllExistingTables
- * @method chooseFromExisting sets <param>this.tableName</param> for existing table
- * @method createTable - Checks if query String's hashCode() doesn't exist as a name in db and creates a table with tablename=query.hashCode(), and markers as columns
- *
- */
 package com.lukmaj;
 
 import java.util.HashMap;
@@ -22,6 +10,10 @@ public class DBManager extends LogBuilder {
     private static final String[] xmlMarker = {"<", "/>"};
     private Markers markers;
 
+    /**
+     * <p> Constructor for DBManager which initialize Markers class </p>
+     * @param markers - all of markers found in example file
+     */
     public DBManager(Markers markers) {
         this.markers = markers;
     }
@@ -30,6 +22,10 @@ public class DBManager extends LogBuilder {
         getMarkersFromColumns(this.tableName);
     }
 
+    /**
+     * <p> Method for choosing markers which will be used for logging in future.
+     * Markers are taken from example XML file</p>
+     */
     public void chooseMarkers(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Available Markers: ");
@@ -57,6 +53,9 @@ public class DBManager extends LogBuilder {
         }
     }
 
+    /**
+     * <p> Creates table in SQL database, where columns = markers chosen for logigng</p>
+     */
     public void createTable(){
         if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){
             createLogTable();
@@ -68,6 +67,11 @@ public class DBManager extends LogBuilder {
         super.getAllExisting();
     }
 
+    /**
+     * <p> Allows choosing existing table in Database for logging</p>
+     * @param tName - table name for SQL connection
+     * @return true if table was found in DB, false when not
+     */
     public boolean chooseFromExisting(String tName){
         if(super.isTableExisting(tName)){
             tableName = tName;

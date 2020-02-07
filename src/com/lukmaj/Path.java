@@ -6,6 +6,11 @@ public class Path {
     public String getPath() {
         return path;
     }
+
+    /**
+     * <p> Method reads last used path from database </p>
+     * @return true if path was read correctly
+     */
     public boolean readPath() {
             DbConnect dbConnect = new DbConnect();
             dbConnect.connect();
@@ -26,6 +31,10 @@ public class Path {
 
         }
 
+    /**
+     * <p> Method checks if path is not null</p>
+     * @return true if path is not null, false if it's null
+     */
     public boolean isTyped(){
         if(this.path!=null)
             return true;

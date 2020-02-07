@@ -1,6 +1,3 @@
-/**
- * @method readFiles - Open files in location and read all of the markers and puts them arrayList in Markers class
- */
 package com.lukmaj;
 
 import java.io.*;
@@ -8,6 +5,11 @@ import java.util.Scanner;
 
 public class MarkersReader {
 
+    /**
+     * <p> Method read files from selected destination and collect all found markers </p>
+     * @param path - folder in which are stored test files
+     * @param markers - markers class for found markers
+     */
     public void readFiles(Path path, Markers markers) {
         String cPath = path.getPath();
 
@@ -18,7 +20,6 @@ public class MarkersReader {
             }
         }
     }
-
     private void openFile(File filepath, Path path, Markers markers) {
         try {
             Scanner sc = new Scanner(filepath);
