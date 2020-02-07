@@ -6,7 +6,7 @@ package com.lukmaj;
 import java.io.*;
 import java.util.Scanner;
 
-public class FileReader {
+public class MarkersReader {
 
     public void readFiles(Path path, Markers markers) {
         String cPath = path.getPath();
@@ -37,10 +37,15 @@ public class FileReader {
         while (true) {
             if (line.contains("<")) {
                 firstIndex = line.indexOf("<");
-                lastIndex = line.substring(firstIndex).indexOf("/>") - 2;
-                marker = line.substring(firstIndex, lastIndex);
-                if (!markers.contains(marker)) {
-                    markers.addMarker(marker);
+                if(line.charAt(firstIndex+1) != '/') {
+                    lastIndex = line.substring(firstIndex).indexOf(">") - 1;
+                    marker = line.substring(firstIndex, lastIndex);
+                    if (!markers.contains(marker)) {
+                        markers.addMarker(marker);
+                    }
+                } else {
+                    firstIndex++;
+                    lastIndex = firstIndex;
                 }
             } else break;
             line = line.substring(lastIndex);

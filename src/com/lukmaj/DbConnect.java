@@ -5,14 +5,16 @@ import java.sql.*;
 public class DbConnect {
     protected Connection con;
     public void connect() {
+        ConnectionReader conReader = new ConnectionReader();
+        conReader.readConnectionString();
+
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");
 //        } catch (ClassNotFoundException e) {
 //            System.out.println(e.getException());
 //        }
         try {
-            this.con = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.10:3306/db", "lukmaj", "LukMaj123$%^");
+            this.con = DriverManager.getConnection(conReader.getConnectionString());
         } catch (SQLException e) {
             System.out.println(e);
         }
