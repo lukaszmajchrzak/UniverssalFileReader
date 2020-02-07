@@ -1,5 +1,7 @@
 package com.lukmaj;
 
+import java.util.Scanner;
+
 public class LogsSchemaBuilder {
     Markers markers = new Markers();
     DBManager dbManager;
@@ -17,16 +19,16 @@ public class LogsSchemaBuilder {
             System.out.println("Table already exist: ");
             dbManager.printSelectedTable();
         }
-
-
-
-
     }
 
-
-
     public void selectExisting(){
-
+        dbManager.getExistingTables();
+        Scanner scan = new Scanner(System.in);
+        String tName;
+        System.out.println("Type table name to chooose table from existing: ");
+        tName = scan.nextLine();
+        scan.nextInt();
+        dbManager.chooseFromExisting(tName);
     }
 
     public void createLogsSchema(){

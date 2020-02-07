@@ -84,5 +84,8 @@ public class DBManager extends TableBuilder {
             return true;
         } return false;
     }
+    public void AddMarkersManually(String marker){
+        markers.addMarker(marker);
+    }
 
 }
