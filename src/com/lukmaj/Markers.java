@@ -10,7 +10,7 @@ public class Markers {
 
     /**
      * <p> Adds marker to list of markers</p>
-     * @param marker
+     * @param marker - XML marker as String
      */
     public void addMarker(String marker){
         markers.add(marker);

@@ -15,7 +15,7 @@ public class ConnectionReader {
     private String connectionString;
 
      /**
-      * @map connectionDetails is loaded in constructor
+      * connectionDetails is loaded in constructor
       */
      public ConnectionReader() {
          connectionDetails.put("IP","");

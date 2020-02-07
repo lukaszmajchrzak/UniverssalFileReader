@@ -64,7 +64,7 @@ public class TableBuilder extends DbConnect {
     }
 
     /**
-     * <p>< Method created for further usage /p><
+     * <p> Method created for further usage </p>
      * @return alphabetically sorted map of records (marker ; dataType)
      */
     public Map<String, String> getSortedRecords() {

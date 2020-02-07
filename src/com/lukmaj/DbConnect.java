@@ -36,7 +36,7 @@ public class DbConnect {
 
     /**
      * <p> Method will be deleted soon </p>
-     * @param log
+     * @param log - 2b deleted
      */
     public void insertLog(Log log){
         try {
