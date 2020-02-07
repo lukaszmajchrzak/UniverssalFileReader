@@ -14,11 +14,7 @@ public class DbConnect {
         ConnectionReader conReader = new ConnectionReader();
         conReader.readConnectionString();
 
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            System.out.println(e.getException());
-//        }
+
         try {
             this.con = DriverManager.getConnection(conReader.getConnectionString());
         } catch (SQLException e) {

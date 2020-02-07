@@ -8,13 +8,13 @@ import java.util.*;
 import static java.util.Map.Entry.comparingByKey;
 import static java.util.stream.Collectors.toMap;
 
-public class LogBuilder extends DbConnect {
+public class TableBuilder extends DbConnect {
     private String tableName="";
     private Map<String, String> records = new HashMap<>();
     private Map<String, String> dataTypes = new HashMap<>();
     private Map<String, String> sortedRecords = new HashMap<>();
 
-    public LogBuilder() {
+    public TableBuilder() {
         setdataTypes();
     }
 
@@ -84,7 +84,7 @@ public class LogBuilder extends DbConnect {
         }
         return query;
     }
-    private void getExistingLogTables(String tableName){
+    protected void getExistingLogTable(String tableName){
         super.connect();
         try{
             Statement stmt = super.con.createStatement();
@@ -128,7 +128,7 @@ public class LogBuilder extends DbConnect {
             ResultSet rs = stmt.executeQuery("SELECT * FROM INFROMATION_SCHEMA.TABLES");
             while(rs.next()){
                 System.out.println(rs.getString(1));
-                getExistingLogTables(rs.getString(1));
+                getExistingLogTable(rs.getString(1));
             }
         } catch(SQLException e){
             e.printStackTrace();

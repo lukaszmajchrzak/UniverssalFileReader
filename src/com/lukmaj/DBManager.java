@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class DBManager extends LogBuilder {
+public class DBManager extends TableBuilder {
     private String tableName;
     private Map<String, String> logContainer = new HashMap<>();
     private static final String[] xmlMarker = {"<", "/>"};
@@ -63,6 +63,12 @@ public class DBManager extends LogBuilder {
         }
     }
 
+    public void printSelectedTable(){
+        super.getExistingLogTable(this.tableName);
+    }
+    public String getCreatedName(){
+        return Integer.toString(buildCreateTableQuery().hashCode());
+    }
     public void getExistingTables(){
         super.getAllExisting();
     }
