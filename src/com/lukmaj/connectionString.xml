@@ -1,0 +1,5 @@
+<IP>127.0.0.10:3306</IP>
+<Username>lukmaj</Username>
+<Password>LukMaj123$%^</Password>
+<Database>db</Database>
+<jdbc>jdbc:mysql</jdbc>
