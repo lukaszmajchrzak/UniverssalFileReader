@@ -21,7 +21,7 @@ public class LogsSchemaBuilder {
         }
     }
 
-    public void selectExisting(){
+    public void selectExistingTable(){
         dbManager.getExistingTables();
         Scanner scan = new Scanner(System.in);
         String tName;
