@@ -32,6 +32,16 @@ public class Path {
         }
 
     /**
+     * <p> Method saves new path in Database</p>
+     * @param path - String path - this value will be saved as new path in Database
+     */
+    public void setPath(String path){
+        DbConnect dbConnect = new DbConnect();
+        dbConnect.connect();
+        dbConnect.setPath(path);
+        dbConnect.close();
+    }
+    /**
      * <p> Method checks if path is not null</p>
      * @return true if path is not null, false if it's null
      */

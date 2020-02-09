@@ -21,7 +21,18 @@ public class DbConnect {
             System.out.println(e);
         }
     }
-    private String buildQuery(Log log){
+    // TODO: 10.02.2020 assign correct path to DB
+        public void setPath(String path){
+        this.connect();
+        try{
+                Statement stmt = this.con.createStatement();
+                stmt.executeUpdate("UPDATE db.config SET path='"+ path + "'");
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        }
+
+        private String buildQuery(Log log){
         String query;
         double transactionAmount;
         try {
