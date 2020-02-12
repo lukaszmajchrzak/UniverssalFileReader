@@ -3,16 +3,24 @@ package com.lukmaj;
 import java.util.Scanner;
 
 public class LogsSchemaBuilder {
-    Markers markers = new Markers();
-    DBManager dbManager;
+    private Markers markers;
+    private DBManager dbManager;
     private String tableName;
     public LogsSchemaBuilder() {
     }
+
+    public LogsSchemaBuilder(Markers markers, DBManager dbManager, String tableName) {
+        this.markers = markers;
+        this.dbManager = dbManager;
+        this.tableName = tableName;
+    }
+
     public void prepareSchema(){
         markers.getMarkers();
         dbManager = new DBManager(markers);
         dbManager.chooseMarkers();
         if(!dbManager.chooseFromExisting(dbManager.getCreatedName())){
+            dbManager.prepareLogContainer();
             dbManager.createTable();
             System.out.println("Table created: ");
             dbManager.printSelectedTable();
@@ -23,7 +31,9 @@ public class LogsSchemaBuilder {
             tableName = dbManager.getTableName();
         }
     }
+    public void createInterfaceSchema(){
 
+    }
     public void selectExistingTable(){
         dbManager.getExistingTables();
         Scanner scan = new Scanner(System.in);
