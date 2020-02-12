@@ -17,7 +17,34 @@ public class DBManager extends TableBuilder {
     public DBManager(Markers markers) {
         this.markers = markers;
     }
+    /**
+     * @return returns logContainers - map which will store marker + markerValue
+     */
+    public Map<String, String> getLogContainer() {
+        return logContainer;
+    }
 
+    /**
+     * <p> Method clears logCointaner map and input all records from DB as empty keys</p>
+     */
+    public void prepareLogContainer(){
+        logContainer.clear();
+        for (String markers: getSortedRecords().keySet()) {
+            logContainer.put(markers,"");
+        }
+    }
+
+    /**
+     * <p> Method clears valueSet in the logContainer map </p>
+     */
+   public void clearLogCoontainer(){
+        for (String value: logContainer.keySet()) {
+            logContainer.replace(value, "");
+        }
+    }
+    /**
+     * Returns markers read from database
+     */
     public void getMarkers(){
         getMarkersFromColumns(this.tableName);
     }
@@ -53,8 +80,14 @@ public class DBManager extends TableBuilder {
         }
     }
 
+    public  void createSoaPreparedTable(String tableName){
+        if(!isTableExisting(tableName))
+            if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){
+                createSoaPrepared(tableName);
+            }
+    }
     /**
-     * <p> Creates table in SQL database, where columns = markers chosen for logigng</p>
+     * <p> Creates table in SQL database, where columns = markers chosen for logigng and name is query.hashCode()</p>
      */
     public void createTable(){
         if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){

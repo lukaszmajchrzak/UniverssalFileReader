@@ -14,3 +14,7 @@ public class LogMapper {
         sortedRecords = tBuilder.getSortedRecords();
     }
 }
+
+/*
+log maper - should adjust logs from the files to the table
+ */

@@ -146,7 +146,7 @@ public class TableBuilder extends DbConnect {
         super.connect();
         try {
             Statement stmt = super.con.createStatement();
-            stmt.executeUpdate("CREATE TABLE " + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
+            stmt.executeUpdate("CREATE TABLE db." + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
             this.tableName = Integer.toString(buildCreateTableQuery().hashCode());
            return true;
         } catch (SQLException e) {
@@ -155,7 +155,24 @@ public class TableBuilder extends DbConnect {
         super.close();
         return false;
     }
-
+    /**
+     * <p> Method creates log table using pre-built query
+     * query is built from records (sorted alphabetically). Table name is typed by user.
+     * This functions is used for creating Interface schema for further use </p>
+     */
+    public boolean createSoaPrepared(String tName){
+        super.connect();
+        try {
+            Statement stmt = super.con.createStatement();
+            stmt.executeUpdate("CREATE TABLE db." + tName + " (" + buildCreateTableQuery() + " );");
+            this.tableName = Integer.toString(buildCreateTableQuery().hashCode());
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.close();
+        return false;
+    }
     /**
      * <p> Method checks if table already exist in database</p>
      * @param tableName - table name which will be checked in database
