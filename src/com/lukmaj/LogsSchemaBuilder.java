@@ -32,6 +32,7 @@ public class LogsSchemaBuilder {
         }
     }
     public void createInterfaceSchema(){
+        System.out.println();
 
     }
     public void selectExistingTable(){
