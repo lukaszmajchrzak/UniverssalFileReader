@@ -34,17 +34,24 @@ public class ConnectionReader {
      /**
       * <p> Method reads connection string details from connectionString.xml file and builds connectionString  </p>
       */
-    public void readConnectionString() throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = factory.newDocumentBuilder();
-        Document doc = dBuilder.parse(new File("connectionString.xml"));
-        connectionDetails.replace("IP",doc.getElementsByTagName("IP").item(0).getTextContent());
-        connectionDetails.replace("Username",doc.getElementsByTagName("Username").item(0).getTextContent());
-        connectionDetails.replace("Password",doc.getElementsByTagName("Password").item(0).getTextContent());
-        connectionDetails.replace("Database",doc.getElementsByTagName("Database").item(0).getTextContent());
-        connectionDetails.replace("jdbc",doc.getElementsByTagName("jdbc").item(0).getTextContent());
-        buildConnectionString();
-
+    public void readConnectionString() {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = factory.newDocumentBuilder();
+            Document doc = dBuilder.parse(new File("connectionString.xml"));
+            connectionDetails.replace("IP", doc.getElementsByTagName("IP").item(0).getTextContent());
+            connectionDetails.replace("Username", doc.getElementsByTagName("Username").item(0).getTextContent());
+            connectionDetails.replace("Password", doc.getElementsByTagName("Password").item(0).getTextContent());
+            connectionDetails.replace("Database", doc.getElementsByTagName("Database").item(0).getTextContent());
+            connectionDetails.replace("jdbc", doc.getElementsByTagName("jdbc").item(0).getTextContent());
+            buildConnectionString();
+        } catch(ParserConfigurationException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        } catch(SAXException e){
+            e.printStackTrace();
+        }
     }
 
 

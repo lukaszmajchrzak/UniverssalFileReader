@@ -57,9 +57,11 @@ public class DbConnect {
 //            while (rs.next()) {
 //                System.out.println(rs.getString(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getDouble(5) + " " + rs.getDouble(6));
 //            }
-        }catch(SQLException e){
-            System.out.println("log insert to DB failed");
+        }catch(SQLIntegrityConstraintViolationException e){
+            System.out.println("Constraint value already exist in DB!");
             e.getNextException();
+        } catch(SQLException e){
+            e.printStackTrace();
         }
     }
 

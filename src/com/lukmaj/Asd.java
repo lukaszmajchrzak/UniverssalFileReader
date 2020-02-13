@@ -20,14 +20,18 @@ public class Asd {
         DocumentBuilder dBuilder = factory.newDocumentBuilder();
         Document doc = dBuilder.parse(new File("connectionString.xml"));
         NodeList nodeList;
+        String a;
+        NamedNodeMap n;
+        n=doc.getAttributes();
 
-        nodeList = doc.getElementsByTagName();
+        System.out.println(a);
 
-        for(int i=0;i<nodeList.getLength();i++){
-            System.out.println(nodeList.item(i).get));
-        }
 
-//        System.out.println(doc.getElementsByTagName("Username").item(0).getTextContent());
+//        for(int i=0;i<nodeList.getLength();i++){
+//            System.out.println(nodeList.item(i).getLocalName());
+//        }
+
+        System.out.println(doc.getElementsByTagName("Username").item(0)
 
     }
 }
