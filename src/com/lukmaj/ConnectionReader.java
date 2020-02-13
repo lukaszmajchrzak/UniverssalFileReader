@@ -1,6 +1,13 @@
 
 package com.lukmaj;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,50 +31,27 @@ public class ConnectionReader {
          connectionDetails.put("Database","");
          connectionDetails.put("jdbc","");
      }
-
      /**
       * <p> Method reads connection string details from connectionString.xml file and builds connectionString  </p>
       */
-     public void readConnectionString(){
-        File file = new File("connectionString.xml");
-        readFromFile(file);
+    public void readConnectionString() throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = factory.newDocumentBuilder();
+        Document doc = dBuilder.parse(new File("connectionString.xml"));
+        connectionDetails.replace("IP",doc.getElementsByTagName("IP").item(0).getTextContent());
+        connectionDetails.replace("Username",doc.getElementsByTagName("Username").item(0).getTextContent());
+        connectionDetails.replace("Password",doc.getElementsByTagName("Password").item(0).getTextContent());
+        connectionDetails.replace("Database",doc.getElementsByTagName("Database").item(0).getTextContent());
+        connectionDetails.replace("jdbc",doc.getElementsByTagName("jdbc").item(0).getTextContent());
+        buildConnectionString();
+
     }
 
-    private void readFromFile(File file){
-        try{
-            Scanner sc = new Scanner(file);
-            while(sc.hasNextLine()){
-                createConnectionString(sc.nextLine());
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-       buildConnectionString();
-    }
+
     private void buildConnectionString(){
         this.connectionString = connectionDetails.get("jdbc") + "://" + connectionDetails.get("IP")+ "/" + connectionDetails.get("Database")
                 + ((char) 34) + "," + connectionDetails.get("Username") + "," + connectionDetails.get("Passwowrd") + ((char) 34);
      }
-
-    private void createConnectionString(String line) {
-        int firstIndex, lastIndex;
-        String mapKey;
-        while (true) {
-            if (line.contains("<")) {
-                firstIndex = line.indexOf("<");
-                if (line.charAt(firstIndex + 1) != '/') {
-                    lastIndex = line.indexOf(">");
-                    mapKey = line.substring(firstIndex, lastIndex);
-                    line = line.substring(++lastIndex);
-                    firstIndex = lastIndex;
-                    lastIndex = line.indexOf("</");
-                    connectionDetails.replace(mapKey, line.substring(firstIndex, lastIndex));
-                }
-            }
-        }
-
-    }
-
      /**
       *
       * @return connectionString which contains connection string built from connectionsString.xml file

@@ -1,9 +1,16 @@
 package com.lukmaj;
 
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.Scanner;
 
 public class MarkersReader {
+
 
     /**
      * <p> Method read files from selected destination and collect all found markers </p>
