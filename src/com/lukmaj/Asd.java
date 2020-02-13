@@ -24,14 +24,13 @@ public class Asd {
         NamedNodeMap n;
         n=doc.getAttributes();
 
-        System.out.println(a);
 
 
 //        for(int i=0;i<nodeList.getLength();i++){
 //            System.out.println(nodeList.item(i).getLocalName());
 //        }
 
-        System.out.println(doc.getElementsByTagName("Username").item(0)
+        System.out.println(doc.getElementsByTagName("Username").item(0).getTextContent());
 
     }
 }
