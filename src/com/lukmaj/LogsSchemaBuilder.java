@@ -15,6 +15,12 @@ public class LogsSchemaBuilder {
         this.tableName = tableName;
     }
 
+    /**
+     * <P> Method prepares table schema for logs in steps:
+     * 1. Choose XML tags from file / create new XML tags
+     * 2. Prepare SQL query, checks if table already exist
+     * 3. Creates table or Selects existing if it fits to the used Markers one-to-one </P>
+     */
     public void prepareSchema(){
         markers.getMarkers();
         dbManager = new DBManager(markers);
@@ -31,9 +37,13 @@ public class LogsSchemaBuilder {
             tableName = dbManager.getTableName();
         }
     }
+    // TODO: 13.02.2020
     public void createInterfaceSchema(){
         System.out.println();
 
+        /**
+         * <p> Method manually allows to choose existing table for logs. It will print all of available tables with all columns where column name = XML tag</p>
+          */
     }
     public void selectExistingTable(){
         dbManager.getExistingTables();
@@ -49,10 +59,4 @@ public class LogsSchemaBuilder {
     public String getTableName() {
         return tableName;
     }
-
-    public void createLogsSchema(){
-
-    }
-
-
 }
