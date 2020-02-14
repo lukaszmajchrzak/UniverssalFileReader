@@ -14,7 +14,6 @@ import java.lang.annotation.Documented;
 import java.util.Scanner;
 
 public class Asd {
-
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = factory.newDocumentBuilder();
@@ -23,6 +22,7 @@ public class Asd {
         String a;
         NamedNodeMap n;
         n=doc.getAttributes();
+
 
 
 

@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class MarkersReader {
 
-
     /**
      * <p> Method read files from selected destination and collect all found markers </p>
      * @param path - folder in which are stored test files
