@@ -34,7 +34,25 @@ public class DbConnect{
             e.printStackTrace();
         }
         }
+    protected HashMap<String,String> getLogs(HashMap<String,String> columns, String tableName){
+        try{
+            Statement stmt = this.con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT " + buildSelectQuery(columns) + " FROM " + tableName);
+            while(rs.next()){
 
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+    private String buildSelectQuery(HashMap<String,String> columns){
+        String query="";
+        for(HashMap.Entry<String,String> c: columns.entrySet()){
+            query+= c + ",";
+        }
+        return query;
+    }
 
     private String[] buildQuery(HashMap<String,String> logContainer){
         String query[] = new String[2];
