@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class DBManager extends TableBuilder {
     private String tableName;
-    private Map<String, String> logContainer = new HashMap<>();
+    private HashMap<String, String> logContainer = new HashMap<>();
     private static final String[] xmlMarker = {"<", "/>"};
     private Markers markers;
 
@@ -95,7 +95,13 @@ public class DBManager extends TableBuilder {
             tableName = super.getTableName();
         }
     }
-
+    public void readFile(Path path){
+        FileReader fReader = new FileReader();
+        logContainer = fReader.readFiles(path.getPath(),markers.toArray());
+        if(super.putToDatabase(logContainer,tableName)){
+            logContainer.clear();
+        }
+    }
     public void printSelectedTable(){
         super.getExistingLogTable(this.tableName);
     }

@@ -9,10 +9,9 @@ public class LogsSchemaBuilder {
     public LogsSchemaBuilder() {
     }
 
-    public LogsSchemaBuilder(Markers markers, DBManager dbManager, String tableName) {
+    public LogsSchemaBuilder(Markers markers, DBManager dbManager) {
         this.markers = markers;
         this.dbManager = dbManager;
-        this.tableName = tableName;
     }
 
     /**

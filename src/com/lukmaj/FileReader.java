@@ -11,11 +11,24 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimerTask;
 
-public class FileReader {
+public class FileReader extends TimerTask {
+    private Path path;
+    private Markers markers;
 
-    public Map<String,String> readFiles(String pathname,String tags[]) {
-        Map<String,String> records = new HashMap<>();
+    public FileReader(Path path, Markers markers) {
+        this.path = path;
+        this.markers = markers;
+    }
+
+    @Override
+    public void run() {
+        readFiles(path.getPath(),markers.toArray());
+    }
+
+    public HashMap<String,String> readFiles(String pathname, String tags[]) {
+        HashMap<String,String> records = new HashMap<>();
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = factory.newDocumentBuilder();

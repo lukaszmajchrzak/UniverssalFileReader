@@ -1,9 +1,12 @@
 package com.lukmaj;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class DbConnect {
+public class DbConnect{
     protected Connection con;
+    private String tableName;
 
     /**
      * <p> Method connects to database using connection string typed in connectionString.xml file
@@ -32,39 +35,28 @@ public class DbConnect {
         }
         }
 
-        private String buildQuery(Log log){
-        String query;
-        double transactionAmount;
-        try {
-            transactionAmount = Double.valueOf(log.getClosingBalance()) - Double.valueOf(log.getOpeningBalance());
-        } catch(NullPointerException e){
-            transactionAmount = 0;
+
+    private String[] buildQuery(HashMap<String,String> logContainer){
+        String query[] = new String[2];
+        for(HashMap.Entry<String,String> entry : logContainer.entrySet()){
+            query[1] = "'" + entry.getKey() + "'" + ",";
+            query[2] = "'" + entry.getValue() + "'" + ",";
         }
-        query = ((char)39) + log.getIban() + ((char)39) + "," + ((char)39) + log.getSeq() + ((char)39) + "," + ((char)39) + log.getFileName() + ((char)39) + "," + ((char)39) + log.getDateStamp() + ((char)39) + "," + ((char)39) + log.getOpeningBalance() + ((char)39) + "," +
-                ((char)39) + log.getClosingBalance() + ((char)39) + "," + ((char)39) + transactionAmount + ((char)39) + "," + ((char) 39) + log.getTime() + ((char) 39 + "," + ((char) 39) + log.getXML() + ((char)39));
         return query;
     }
-
-    /**
-     * <p> Method will be deleted soon </p>
-     * @param log - 2b deleted
-     */
-    public void insertLog(Log log){
-        try {
+    protected boolean putToDatabase(HashMap<String,String> logContainer,String tableName){
+        String query[] = buildQuery(logContainer);
+        try{
             Statement stmt = this.con.createStatement();
-//            System.out.println("INSERT INTO logs(IBAN,seq,FileName,timestamp,openingBalance,closingBalance,transactionAmount) VALUES(" + buildQuery(log) +  ")");
-            stmt.executeUpdate("INSERT INTO logs(IBAN,seq,FileName,timestamp,openingBalance,closingBalance,transactionAmount,timeStampTime,XML) VALUES(" + buildQuery(log) +  ")");
-//            while (rs.next()) {
-//                System.out.println(rs.getString(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getDouble(5) + " " + rs.getDouble(6));
-//            }
-        }catch(SQLIntegrityConstraintViolationException e){
-            System.out.println("Constraint value already exist in DB!");
-            e.getNextException();
+            stmt.executeQuery("INSERT INTO" + tableName + "(" + query[0] + ") VALUES(" + query[1] + ")");
+            return true;
+        } catch(SQLIntegrityConstraintViolationException e){
+            System.out.println("Log already exist in DB");
         } catch(SQLException e){
             e.printStackTrace();
         }
+        return false;
     }
-
     /**
      * <p> Methods pull path from Database </p>
      * @return path as a String

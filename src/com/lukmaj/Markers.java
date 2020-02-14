@@ -3,6 +3,7 @@
  */
 package com.lukmaj;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Markers {
@@ -39,5 +40,14 @@ public class Markers {
         if(markers.isEmpty())
             return true;
         return false;
+    }
+    public String[] toArray(){
+        String[] s = new String[markers.size()];
+        int i=0;
+        for(String m : markers){
+            i++;
+            s[i] = m;
+        }
+        return s;
     }
 }
