@@ -53,12 +53,13 @@ public class Main {
 
                     case 1:
 //                        "ADD MARKERS","Add XML tags manually")
-                        while(!cmd.equals("exit")) {
+                        String marks = "";
+                        while(!marks.equals("exit")) {
                             System.out.println("Type new marker:");
-                            cmd = scan.nextLine();
+                            marks = scan.nextLine();
                             scan.nextInt();
-                            if(!cmd.equals("exit")) {
-                                markers.addMarker(cmd);
+                            if(!marks.equals("exit")) {
+                                dbManager.AddMarkersManually(marks);
                             }
                         }
                         break;
@@ -99,6 +100,58 @@ public class Main {
                             job.run();
                             isRunning = false;
                         }
+                        break;
+                    case 9:
+//                        commandList.put("SET LOGGING","Sets which values will be shown from logs");
+                        dbManager.setLogContainer(dbManager.prepareLogPrinter());
+                        break;
+                    case 10:
+//                        commandList.put("GET LOGS","Gets logs from database");
+                        if(dbManager.isLogContainerEmpty()){
+                            dbManager.setLogContainer(dbManager.prepareLogPrinter());
+                        }
+                        dbManager.getLogs(dbManager.getLogContainer(),dbManager.getTableName());
+                        break;
+                    case 11:
+//                        commandList.put("SHOW SELECTED COLUMNS","Shows selected columns for logging");
+                        dbManager.loadLogContainer();
+                        dbManager.printLogContainer();
+                        break;
+                    case 12:
+//                        commandList.put("CREATE SOA SCHEMA","Creates schema for further use with custom name");
+                        String s;
+                        System.out.println("Provide custom table name: ");
+                        s = scan.nextLine();
+                        scan.nextInt();
+
+                        dbManager.createSoaPreparedTable(s);
+                        break;
+                    case 13:
+//                        commandList.put("CLEAR TAGS CONTAINER","Clears XML tags used for table usage/creation");
+                        dbManager.clearLogCoontainer();
+                        break;
+                    case 14:
+//                        commandList.put("CLEAR LOGS","Deletes all logs from the database");
+                        dbManager.deleteLogs();
+                        break;
+                    case 15:
+//                        commandList.put("?","Shows help");
+                        commands.printCommands();
+                        break;
+                    case 16:
+//                        commandList.put("HELP","Shows help");
+                        commands.printCommands();
+                        break;
+                    case 17:
+//                        commandList.put("GET PATH","Raed path from the server");
+                        System.out.println(path.getPath());
+                        break;
+                    case 18:
+                        String tPath;
+                        tPath = scan.nextLine();
+                        scan.nextInt();
+//                        commandList.put("SET PATH","Sets path");
+                        path.setPath(tPath);
                         break;
                 }
 
