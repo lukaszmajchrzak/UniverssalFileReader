@@ -20,14 +20,19 @@ public class DBManager extends TableBuilder {
     /**
      * @return returns logContainers - map which will store marker + markerValue
      */
-    public Map<String, String> getLogContainer() {
+    public HashMap<String, String> getLogContainer() {
         return logContainer;
     }
 
     /**
      * <p> Method clears logCointaner map and input all records from DB as empty keys</p>
      */
-    public void prepareLogContainer(){
+    public boolean isTableNameEmpty(){
+        if(tableName.isEmpty())
+            return true;
+        else return false;
+    }
+    public void loadLogContainer(){
         logContainer.clear();
         for (String markers: getSortedRecords().keySet()) {
             logContainer.put(markers,"");
@@ -35,12 +40,83 @@ public class DBManager extends TableBuilder {
     }
 
     /**
+     *
+     * @return true if hashmap logContainer is empty
+     */
+    public boolean isLogContainerEmpty(){
+        if(logContainer.isEmpty())
+            return true;
+        return false;
+    }
+
+    /**
+     * <p> Method prints selected columns in logContainer</p>
+     */
+    public void printLogContainer(){
+        if(!isLogContainerEmpty()){
+            System.out.println("available columns:" );
+            for(HashMap.Entry<String,String> lc : logContainer.entrySet()){
+                System.out.println(lc.getKey());
+            }
+        } else System.out.println("no columns selected!");
+    }
+
+    /**
+     *
+     * @param logContainer used to push HashMap to logContainer param
+     */
+    public void setLogContainer(HashMap<String, String> logContainer) {
+        this.logContainer = logContainer;
+    }
+
+    /**
+     * <p> Method allows to choose which XML Tag values will be printed in logs and also allows to type some value will be visible as an marker before log data will be printed
+     * e.g. when value will be 'IBAN:' then log will be printed as IBAN: tag.value</p>
+     */
+    public HashMap<String,String>  prepareLogPrinter(){
+        Scanner scan = new Scanner(System.in);
+        String s="",m="";
+        HashMap<String,String> columns = new HashMap<>();
+        Map<String,String> sortedRecords = getSortedRecords();
+        for(Map.Entry<String,String> sr : sortedRecords.entrySet()){
+            System.out.println(sr.getKey() + " : " + sr.getValue());
+        }
+        System.out.println("Choose columns to be printed and type marker which will be displayed before the value: \ntype exit to finish");
+        while(!s.toUpperCase().equals("EXIT")){
+            s = scan.nextLine();
+            scan.nextInt();
+            if(sortedRecords.containsKey(s)){
+                System.out.println("Type marker which will be displayed before the value:");
+                m=scan.nextLine();
+                scan.nextInt();
+                if(m!=null){
+                    if(m.contains(":")) {
+                        columns.put(s, m);
+                    } else{
+                        m.concat(":");
+                        columns.put(s,m);
+                    }
+                } else{
+                    m=" ";
+                    columns.put(s,m);
+                }
+            }
+            if(columns.isEmpty() && s.toUpperCase().equals("EXIT")){
+                System.out.println("There are no values added!");
+                s = " ";
+            }
+        }
+        return columns;
+    }
+    /**
      * <p> Method clears valueSet in the logContainer map </p>
      */
    public void clearLogCoontainer(){
-        for (String value: logContainer.keySet()) {
-            logContainer.replace(value, "");
+        logContainer.clear();
         }
+
+    public void deleteLogs(){
+       super.deleteLogs(tableName);
     }
     /**
      * Returns markers read from database
@@ -80,6 +156,10 @@ public class DBManager extends TableBuilder {
         }
     }
 
+    /**
+     * <P> Method allows to create pre-made log tables for existing SOA interface </P>
+     * @param tableName will be used instead of .hashCode()
+     */
     public  void createSoaPreparedTable(String tableName){
         if(!isTableExisting(tableName))
             if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){
@@ -95,19 +175,25 @@ public class DBManager extends TableBuilder {
             tableName = super.getTableName();
         }
     }
-    public void readFile(Path path){
-        FileReader fReader = new FileReader();
-        logContainer = fReader.readFiles(path.getPath(),markers.toArray());
-        if(super.putToDatabase(logContainer,tableName)){
-            logContainer.clear();
-        }
-    }
+
+    /**
+     * <p> Method prints all column names (XML tags) from selected table</p>
+     */
     public void printSelectedTable(){
         super.getExistingLogTable(this.tableName);
     }
+
+    /**
+     *
+     * @return returns .hashCode() of the created table
+     */
     public String getCreatedName(){
         return Integer.toString(buildCreateTableQuery().hashCode());
     }
+
+    /**
+     * <p> Method calls getAllExisting from super class - gets all existing tables from database</p>
+     */
     public void getExistingTables(){
         super.getAllExisting();
     }

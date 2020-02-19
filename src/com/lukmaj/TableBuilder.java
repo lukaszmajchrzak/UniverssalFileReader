@@ -127,8 +127,10 @@ public class TableBuilder extends DbConnect {
             Statement stmt = super.con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM INFROMATION_SCHEMA.TABLES");
             while(rs.next()){
-                System.out.println(rs.getString(1));
-                getExistingLogTable(rs.getString(1));
+                if(!rs.getString(1).toUpperCase().equals("CONFIG")) {
+                    System.out.println(rs.getString(1));
+                    getExistingLogTable(rs.getString(1));
+                }
             }
         } catch(SQLException e){
             e.printStackTrace();
@@ -172,6 +174,16 @@ public class TableBuilder extends DbConnect {
         }
         super.close();
         return false;
+    }
+
+    public void deleteLogs(String tName){
+        super.connect();
+        try{
+            Statement stmt = super.con.createStatement();
+            stmt.executeUpdate("DELETE FROM " + tName);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
     }
     /**
      * <p> Method checks if table already exist in database</p>

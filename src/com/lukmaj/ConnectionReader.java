@@ -36,6 +36,7 @@ public class ConnectionReader {
       */
     public void readConnectionString() {
         try {
+
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = factory.newDocumentBuilder();
             Document doc = dBuilder.parse(new File("connectionString.xml"));
@@ -45,6 +46,7 @@ public class ConnectionReader {
             connectionDetails.replace("Database", doc.getElementsByTagName("Database").item(0).getTextContent());
             connectionDetails.replace("jdbc", doc.getElementsByTagName("jdbc").item(0).getTextContent());
             buildConnectionString();
+
         } catch(ParserConfigurationException e){
             e.printStackTrace();
         } catch(IOException e){
@@ -56,9 +58,11 @@ public class ConnectionReader {
 
 
     private void buildConnectionString(){
-        this.connectionString = connectionDetails.get("jdbc") + "://" + connectionDetails.get("IP")+ "/" + connectionDetails.get("Database")
-                + ((char) 34) + "," + connectionDetails.get("Username") + "," + connectionDetails.get("Passwowrd") + ((char) 34);
-     }
+        this.connectionString = ((char) 34) + connectionDetails.get("jdbc") + "://" + connectionDetails.get("IP")+ "/" + connectionDetails.get("Database")
+                + ((char) 34) + "," +  ((char) 34) + connectionDetails.get("Username") + ((char) 34) +  "," + ((char) 34) + connectionDetails.get("Password") + ((char) 34);
+        System.out.println(this.connectionString);
+    }
+
      /**
       *
       * @return connectionString which contains connection string built from connectionsString.xml file

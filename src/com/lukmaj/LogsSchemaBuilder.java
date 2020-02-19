@@ -25,7 +25,7 @@ public class LogsSchemaBuilder {
         dbManager = new DBManager(markers);
         dbManager.chooseMarkers();
         if(!dbManager.chooseFromExisting(dbManager.getCreatedName())){
-            dbManager.prepareLogContainer();
+            dbManager.loadLogContainer();
             dbManager.createTable();
             System.out.println("Table created: ");
             dbManager.printSelectedTable();
@@ -34,6 +34,7 @@ public class LogsSchemaBuilder {
             System.out.println("Table already exist: ");
             dbManager.printSelectedTable();
             tableName = dbManager.getTableName();
+            dbManager.loadLogContainer();
         }
     }
     // TODO: 13.02.2020

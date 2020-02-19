@@ -20,6 +20,19 @@ public class commandList {
         commandList.put("START READING","Launches read process");
         commandList.put("CREATE INTERFACE SCHEMA","Creates pre-made interface log table");
         commandList.put("STOP READING","Stops read process");
+        commandList.put("SET LOGGING","Sets which values will be shown from logs");
+        commandList.put("GET LOGS","Gets logs from database");
+        commandList.put("SHOW SELECTED COLUMNS","Shows selected columns for logging");
+        commandList.put("CREATE SOA SCHEMA","Creates schema for further use with custom name");
+        commandList.put("CLEAR TAGS CONTAINER","Clears XML tags used for table usage/creation");
+        commandList.put("CLEAR LOGS","Deletes all logs from the database");
+        commandList.put("?","Shows help");
+        commandList.put("HELP","Shows help");
+        commandList.put("GET PATH","Raed path from the server");
+        commandList.put("SET PATH","Sets path");
+    }
+    public Map<String,String> getCommandList(){
+        return new HashMap<String,String>(commandList);
     }
     public void printCommands(){
         for(Map.Entry<String,String> cmd : commandList.entrySet()){

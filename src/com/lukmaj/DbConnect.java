@@ -4,13 +4,13 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DbConnect{
+public class DbConnect {
     protected Connection con;
     private String tableName;
 
     /**
      * <p> Method connects to database using connection string typed in connectionString.xml file
-     *
+     * <p>
      * to read the file method runs ConnectionReader.readConnectionString()</p>
      */
     public void connect() {
@@ -24,32 +24,38 @@ public class DbConnect{
             System.out.println(e);
         }
     }
+
     // TODO: 10.02.2020 assign correct path to DB
-        public void setPath(String path){
+    public void setPath(String path) {
         this.connect();
-        try{
-                Statement stmt = this.con.createStatement();
-                stmt.executeUpdate("UPDATE db.config SET path='"+ path + "'");
-        } catch(SQLException e){
+        try {
+            Statement stmt = this.con.createStatement();
+            stmt.executeUpdate("UPDATE db.config SET path='" + path + "'");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        }
-    protected HashMap<String,String> getLogs(HashMap<String,String> columns, String tableName){
-        try{
+    }
+
+    protected void getLogs(HashMap<String,String> columns, String tableName) {
+        try {
             Statement stmt = this.con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT " + buildSelectQuery(columns) + " FROM " + tableName);
-            while(rs.next()){
-
+            while (rs.next()) {
+                int i = 0;
+                System.out.println();
+                for (HashMap.Entry<String, String> hm : columns.entrySet()) {
+                    System.out.printf(hm.getValue() + rs.getString(i) + " ");
+                    i++;
+                }
             }
         } catch(SQLException e){
             e.printStackTrace();
         }
-
     }
     private String buildSelectQuery(HashMap<String,String> columns){
         String query="";
         for(HashMap.Entry<String,String> c: columns.entrySet()){
-            query+= c + ",";
+            query+= c.getKey() + ",";
         }
         return query;
     }
