@@ -2,11 +2,10 @@ package com.lukmaj;
 
 import java.sql.*;
 import java.util.HashMap;
-import java.util.Map;
 
 public class DbConnect {
     protected Connection con;
-    private String tableName;
+
 
     /**
      * <p> Method connects to database using connection string typed in connectionString.xml file
@@ -16,12 +15,11 @@ public class DbConnect {
     public void connect() {
         ConnectionReader conReader = new ConnectionReader();
         conReader.readConnectionString();
-
-
         try {
-            this.con = DriverManager.getConnection(conReader.getConnectionString());
+//            this.con = DriverManager.getConnection(conReader.getAddress(), conReader.getUsername(), conReader.getPassword());
+              this.con =DriverManager.getConnection("jdbc:mysql://10.13.135.10:3306/db", "LukMaj", "LukMaj123$%^");
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.toString());
         }
     }
 
@@ -89,7 +87,7 @@ public class DbConnect {
         String path=null;
         try{
             Statement stmt = this.con.createStatement();
-            ResultSet rs = stmt.executeQuery("Select * from config");
+            ResultSet rs = stmt.executeQuery("Select * from db.config");
             while (rs.next()){
                 path = rs.getString(1);
             }

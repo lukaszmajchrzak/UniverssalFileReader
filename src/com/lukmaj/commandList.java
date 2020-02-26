@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class commandList {
-    private Map<String,String> commandList = new HashMap<>();
+    private HashMap<String,String> commandList = new HashMap<>();
 
     public commandList() {
         initCommands();
@@ -31,11 +31,11 @@ public class commandList {
         commandList.put("GET PATH","Raed path from the server");
         commandList.put("SET PATH","Sets path");
     }
-    public Map<String,String> getCommandList(){
+    public HashMap<String,String> getCommandList(){
         return new HashMap<String,String>(commandList);
     }
     public void printCommands(){
-        for(Map.Entry<String,String> cmd : commandList.entrySet()){
+        for(HashMap.Entry<String,String> cmd : commandList.entrySet()){
             System.out.println(cmd.getKey() + " - " + cmd.getValue());
         }
     }
@@ -46,8 +46,9 @@ public class commandList {
         return false;
     }
     public int getCommandId(String key){
-        int i=0;
-        for(Map.Entry<String,String> cmd : commandList.entrySet()){
+        int i=0;;
+        for(HashMap.Entry<String,String> cmd : commandList.entrySet()){
+            System.out.println(cmd.getKey());
             if (cmd.getKey().equals(key))
                 return i;
             i++;

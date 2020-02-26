@@ -18,15 +18,16 @@ public class Path {
             if(isTyped()) {
                 if (!this.path.equals(tempPath)) {
                     this.path = dbConnect.getPath();
-                    System.out.println(this.path);
                 }
             }else{
                 this.path = dbConnect.getPath();
             }
 
             if (this.path != null){
+                dbConnect.close();
                 return true;
             }
+            dbConnect.close();
             return false;
 
         }

@@ -35,6 +35,7 @@ public class FileReader extends TimerTask {
             Document doc = dBuilder.parse(new File(pathname));
             for(String s : tags){
                 records.put(s,doc.getElementsByTagName(s).item(0).getTextContent());
+
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();

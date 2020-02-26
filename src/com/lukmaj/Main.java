@@ -23,6 +23,7 @@ public class Main {
         MarkersReader markersReader = new MarkersReader();
         commandList commands = new commandList();
         path.readPath();
+
         System.out.println("current path: " + path.getPath());
         boolean isRunning = false;
 
@@ -31,19 +32,21 @@ public class Main {
             isCmd = false;
             JobScheduler job = new JobScheduler(path,markers);
             cmd = scan.nextLine();
-            scan.nextInt();
             sCat ="";
             cmdSplit = cmd.split(" ");
             for(String s : cmdSplit){
-                sCat.concat(" " + s);
+                sCat.concat(s);
                 if(commands.contains(s.toUpperCase())){
+                    System.out.println("here we go");
                     isCmd = true;
                     x= commands.getCommandId(s.toUpperCase());
                 }
                 if(commands.contains(sCat.toUpperCase())){
+                    System.out.println("here we go 2");
                     x = commands.getCommandId(s.toUpperCase());
                     isCmd = true;
                 }
+                sCat.concat(" ");
             }
             if(isCmd) {
                 switch (x) {

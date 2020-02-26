@@ -56,11 +56,21 @@ public class ConnectionReader {
         }
     }
 
+    public String getAddress(){
+        return "jdbc:mysql://" + connectionDetails.get("IP") + "/" + connectionDetails.get("Database");
+    }
+    public String getUsername(){
+        return connectionDetails.get("Username");
+    }
+    public String getPassword(){
+        return connectionDetails.get("Password");
 
+    }
     private void buildConnectionString(){
+        //                this.con =DriverManager.getConnection("jdbc:mysql://10.13.135.10:3306/db", "LukMaj", "LukMaj123$%^");
         this.connectionString = ((char) 34) + connectionDetails.get("jdbc") + "://" + connectionDetails.get("IP")+ "/" + connectionDetails.get("Database")
-                + ((char) 34) + "," +  ((char) 34) + connectionDetails.get("Username") + ((char) 34) +  "," + ((char) 34) + connectionDetails.get("Password") + ((char) 34);
-        System.out.println(this.connectionString);
+                + ((char) 34) + ", " +  ((char) 34) + connectionDetails.get("Username") + ((char) 34) +  ", " + ((char) 34) + connectionDetails.get("Password") + ((char) 34);
+
     }
 
      /**
