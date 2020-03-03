@@ -21,7 +21,7 @@ public class Main {
         DBManager dbManager = new DBManager(markers);
         LogsSchemaBuilder logsSchemaBuilder = new LogsSchemaBuilder(markers,dbManager);
         MarkersReader markersReader = new MarkersReader();
-        commandList commands = new commandList();
+        CommandList commands = new CommandList();
         path.readPath();
 
         System.out.println("current path: " + path.getPath());
@@ -37,16 +37,20 @@ public class Main {
             for(String s : cmdSplit){
                 sCat.concat(s);
                 if(commands.contains(s.toUpperCase())){
-                    System.out.println("here we go");
+//                    System.out.println("here we go");
                     isCmd = true;
                     x= commands.getCommandId(s.toUpperCase());
                 }
                 if(commands.contains(sCat.toUpperCase())){
-                    System.out.println("here we go 2");
+//                    System.out.println("here we go 2");
                     x = commands.getCommandId(s.toUpperCase());
                     isCmd = true;
                 }
                 sCat.concat(" ");
+            }
+            if(commands.contains(cmd.toUpperCase())){
+                x = commands.getCommandId(cmd.toUpperCase());
+                isCmd = true;
             }
             if(isCmd) {
                 switch (x) {
@@ -61,7 +65,7 @@ public class Main {
                         while(!marks.equals("exit")) {
                             System.out.println("Type new marker:");
                             marks = scan.nextLine();
-                            scan.nextInt();
+//                            scan.nextInt();
                             if(!marks.equals("exit")) {
                                 dbManager.AddMarkersManually(marks);
                             }
@@ -77,7 +81,7 @@ public class Main {
 //                        "SELECT TABLE","Selects existing table"
                         System.out.println("\n\nType table name :");
                         cmd = scan.nextLine();
-                        scan.nextInt();
+//                        scan.nextInt();
                         logsSchemaBuilder.selectExistingTable();
                         break;
 
@@ -126,7 +130,7 @@ public class Main {
                         String s;
                         System.out.println("Provide custom table name: ");
                         s = scan.nextLine();
-                        scan.nextInt();
+//                        scan.nextInt();
 
                         dbManager.createSoaPreparedTable(s);
                         break;
@@ -153,9 +157,12 @@ public class Main {
                     case 18:
                         String tPath;
                         tPath = scan.nextLine();
-                        scan.nextInt();
+//                        scan.nextInt();
 //                        commandList.put("SET PATH","Sets path");
-                        path.setPath(tPath);
+                        if(path.updatePath(tPath)){
+                            System.out.println("Path Updated!");
+                            path.readPath();
+                        } else System.out.println("Wrong path!");
                         break;
                 }
 

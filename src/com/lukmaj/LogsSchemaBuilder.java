@@ -20,22 +20,26 @@ public class LogsSchemaBuilder {
      * 2. Prepare SQL query, checks if table already exist
      * 3. Creates table or Selects existing if it fits to the used Markers one-to-one </P>
      */
-    public void prepareSchema(){
+    public void prepareSchema() {
         markers.getMarkers();
         dbManager = new DBManager(markers);
-        dbManager.chooseMarkers();
-        if(!dbManager.chooseFromExisting(dbManager.getCreatedName())){
-            dbManager.loadLogContainer();
-            dbManager.createTable();
-            System.out.println("Table created: ");
-            dbManager.printSelectedTable();
-            tableName = dbManager.getTableName();
-        } else{
-            System.out.println("Table already exist: ");
-            dbManager.printSelectedTable();
-            tableName = dbManager.getTableName();
-            dbManager.loadLogContainer();
-        }
+        if (!markers.isEmpty()) {
+            dbManager.chooseMarkers();
+            dbManager.connect();
+            if (!dbManager.chooseFromExisting(dbManager.getCreatedName())) {
+                dbManager.loadLogContainer();
+                dbManager.createTable();
+                System.out.println("Table created: ");
+                dbManager.printSelectedTable();
+                tableName = dbManager.getTableName();
+            } else {
+                System.out.println("Table already exist: ");
+                dbManager.printSelectedTable();
+                tableName = dbManager.getTableName();
+                dbManager.loadLogContainer();
+            }
+            dbManager.close();
+        } else System.out.println("There are no markers!");
     }
     // TODO: 13.02.2020
     public void createInterfaceSchema(){

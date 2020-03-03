@@ -34,7 +34,12 @@ public class Markers {
         }
         return false;
     }
-
+    public boolean isEmpty(){
+        if(markers.isEmpty()){
+            return true;
+        }
+        return false;
+    }
     public boolean clearMarkers(){
         markers.clear();
         if(markers.isEmpty())

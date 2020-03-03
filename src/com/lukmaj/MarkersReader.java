@@ -37,25 +37,33 @@ public class MarkersReader {
             e.printStackTrace();
         }
     }
-
-    private void getMarker(String line, Markers markers) {
+    private void getMarker(String line, Markers markers){
         String marker;
-        int firstIndex, lastIndex;
-        while (true) {
-            if (line.contains("<")) {
-                firstIndex = line.indexOf("<");
-                if(line.charAt(firstIndex+1) != '/') {
-                    lastIndex = line.substring(firstIndex).indexOf(">") - 1;
-                    marker = line.substring(firstIndex, lastIndex);
-                    if (!markers.contains(marker)) {
-                        markers.addMarker(marker);
+        int firstindex, lastIndex;
+
+        while(true){
+            if(line.contains("<")){
+                firstindex = line.indexOf("<");
+//                System.out.println(firstindex);
+                if(line.charAt(firstindex+1) != '/'){
+                    line.substring(firstindex);
+                    if(line.contains(">")){
+                        lastIndex = line.indexOf(">");
+                        marker=line.substring(1,lastIndex);
+                        line = line.substring(lastIndex+1);
+                        if(!markers.contains((marker))){
+                            markers.addMarker(marker);
+                        }
                     }
                 } else {
-                    firstIndex++;
-                    lastIndex = firstIndex;
+                    line = line.substring(firstindex+1);
                 }
-            } else break;
-            line = line.substring(lastIndex);
+            } else {
+//                System.out.println(line);
+                System.out.println("markers read!");
+                break;
+            }
         }
     }
+
 }

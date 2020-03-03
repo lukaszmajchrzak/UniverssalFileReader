@@ -39,10 +39,19 @@ public class TableBuilder extends DbConnect {
      */
     public void addRecords(String recordName, String value) {
         if (dataTypes.containsValue(value)) {
-            addRecord(recordName, dataTypes.get(value));
+            addRecord(recordName, value);
+            System.out.println("record added: " + recordName + " type: " +value);
+            System.out.println("Selected records: ");
+            System.out.println(records.entrySet());
         }
     }
-
+    public boolean recordsContains(String value){
+        for(String val: records.keySet()){
+            if(val.equals(value))
+                return true;
+        }
+        return false;
+    }
     public String getTableName() {
         return tableName;
     }
@@ -52,6 +61,8 @@ public class TableBuilder extends DbConnect {
     }
 
     private Map<String, String> sortRecords() {
+        System.out.println(records.entrySet());
+
         Map<String, String> sorted = records
                 .entrySet()
                 .stream()
@@ -60,6 +71,7 @@ public class TableBuilder extends DbConnect {
                         toMap(e -> e.getKey(), e -> e.getValue(),
                                 (e1, e2) -> e2, LinkedHashMap::new)
                 );
+        System.out.println(sorted.entrySet());
         return sorted;
     }
 
@@ -77,8 +89,10 @@ public class TableBuilder extends DbConnect {
      * @return query string which will be used for SQL Create table query
      */
     protected String buildCreateTableQuery() {
+        System.out.println(records.entrySet());
         sortedRecords = sortRecords();
         String query = "";
+        System.out.println(sortedRecords.entrySet());
         for (Map.Entry<String, String> entry : sortedRecords.entrySet()) {
             query += entry.getKey() + " " + entry.getValue();
         }
@@ -95,7 +109,6 @@ public class TableBuilder extends DbConnect {
         } catch (SQLException e){
             e.printStackTrace();
         }
-        super.close();
     }
 
     /**
@@ -115,7 +128,6 @@ public class TableBuilder extends DbConnect {
         } catch (SQLException e){
             e.printStackTrace();
         }
-        super.close();
     }
 
     /**
@@ -135,7 +147,7 @@ public class TableBuilder extends DbConnect {
         } catch(SQLException e){
             e.printStackTrace();
         }
-        super.close();
+
     }
 
     /**
@@ -148,13 +160,13 @@ public class TableBuilder extends DbConnect {
         super.connect();
         try {
             Statement stmt = super.con.createStatement();
+            System.out.println("CREATE TABLE db." + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
             stmt.executeUpdate("CREATE TABLE db." + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
             this.tableName = Integer.toString(buildCreateTableQuery().hashCode());
            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        super.close();
         return false;
     }
     /**
@@ -172,7 +184,6 @@ public class TableBuilder extends DbConnect {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        super.close();
         return false;
     }
 
@@ -201,7 +212,6 @@ public class TableBuilder extends DbConnect {
         } catch(SQLException e){
             e.printStackTrace();
         }
-        super.close();
         return false;
     }
 

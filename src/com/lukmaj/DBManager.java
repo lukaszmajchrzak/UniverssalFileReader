@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class DBManager extends TableBuilder {
     private String tableName;
     private HashMap<String, String> logContainer = new HashMap<>();
-    private static final String[] xmlMarker = {"<", "/>"};
     private Markers markers;
 
     /**
@@ -84,11 +83,11 @@ public class DBManager extends TableBuilder {
         System.out.println("Choose columns to be printed and type marker which will be displayed before the value: \ntype exit to finish");
         while(!s.toUpperCase().equals("EXIT")){
             s = scan.nextLine();
-            scan.nextInt();
+
             if(sortedRecords.containsKey(s)){
                 System.out.println("Type marker which will be displayed before the value:");
                 m=scan.nextLine();
-                scan.nextInt();
+
                 if(m!=null){
                     if(m.contains(":")) {
                         columns.put(s, m);
@@ -129,49 +128,59 @@ public class DBManager extends TableBuilder {
      * <p> Method for choosing markers which will be used for logging in future.
      * Markers are taken from example XML file</p>
      */
-    public void chooseMarkers(){
+    public void chooseMarkers() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Available Markers: ");
-        for(String marker : markers.getMarkers()){
-            System.out.println(marker);
-        }
         String dType;
-        String scanning="";
-        while(!scanning.equals("exit")){
+        String scanning;
+        while (true) {
             scanning = scan.nextLine();
-            scan.nextInt();
-
-            if(markers.getMarkers().contains(scanning)){
-                for(String dataType : super.getDataType().keySet()){
-                    System.out.println(dataType);
-                }
-                System.out.println("Choose data type: ");
+            if (!scanning.toUpperCase().equals("EXIT")) {
+                printAvailableMarkers();
+                if (markers.getMarkers().contains(scanning)) {
+                    for (String dataType : super.getDataType().keySet()) {
+                        System.out.println(dataType);
+                    }
+                    System.out.println("Choose data type: ");
                     dType = scan.nextLine();
-                    scan.nextInt();
 
-                    if(super.getDataType().containsValue(dType)){
-                        super.addRecords(scanning,dType);
+                    if (super.getDataType().containsKey(dType)) {
+                        super.addRecords(scanning, getDataType().get(dType));
                     } else System.out.println("data type not found");
-            } else System.out.println("Marker not found!");
+                } else System.out.println("Marker not found!");
+
+                System.out.println("\n");
+            } else break;
         }
     }
 
+    private void printAvailableMarkers(){
+        System.out.println("Available Markers: ");
+        int i=0;
+        for(String marker : markers.getMarkers()){
+            if(!super.recordsContains(marker))
+                System.out.print(marker + " ");
+            if(i% 5 == 0){
+                System.out.println("");
+            }
+            i++;
+        }
+    }
     /**
      * <P> Method allows to create pre-made log tables for existing SOA interface </P>
      * @param tableName will be used instead of .hashCode()
      */
     public  void createSoaPreparedTable(String tableName){
-        if(!isTableExisting(tableName))
-            if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){
-                createSoaPrepared(tableName);
+        if(!super.isTableExisting(tableName))
+            if(!super.isTableExisting(Integer.toString(super.buildCreateTableQuery().hashCode()))){
+                super.createSoaPrepared(tableName);
             }
     }
     /**
      * <p> Creates table in SQL database, where columns = markers chosen for logigng and name is query.hashCode()</p>
      */
     public void createTable(){
-        if(!isTableExisting(Integer.toString(buildCreateTableQuery().hashCode()))){
-            createLogTable();
+        if(!super.isTableExisting(Integer.toString(super.buildCreateTableQuery().hashCode()))){
+            super.createLogTable();
             tableName = super.getTableName();
         }
     }
@@ -188,7 +197,7 @@ public class DBManager extends TableBuilder {
      * @return returns .hashCode() of the created table
      */
     public String getCreatedName(){
-        return Integer.toString(buildCreateTableQuery().hashCode());
+        return Integer.toString(super.buildCreateTableQuery().hashCode());
     }
 
     /**

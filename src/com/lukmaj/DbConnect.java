@@ -28,7 +28,8 @@ public class DbConnect {
         this.connect();
         try {
             Statement stmt = this.con.createStatement();
-            stmt.executeUpdate("UPDATE db.config SET path='" + path + "'");
+            stmt.executeUpdate("UPDATE db.config SET FilePath='" + path + "'");
+            System.out.println("Path updated!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
