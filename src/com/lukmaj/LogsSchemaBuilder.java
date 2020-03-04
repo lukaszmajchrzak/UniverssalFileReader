@@ -21,8 +21,6 @@ public class LogsSchemaBuilder {
      * 3. Creates table or Selects existing if it fits to the used Markers one-to-one </P>
      */
     public void prepareSchema() {
-        markers.getMarkers();
-        dbManager = new DBManager(markers);
         if (!markers.isEmpty()) {
             dbManager.chooseMarkers();
             dbManager.connect();

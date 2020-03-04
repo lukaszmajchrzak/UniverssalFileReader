@@ -179,7 +179,7 @@ public class DBManager extends TableBuilder {
      * <p> Creates table in SQL database, where columns = markers chosen for logigng and name is query.hashCode()</p>
      */
     public void createTable(){
-        if(!super.isTableExisting(Integer.toString(super.buildCreateTableQuery().hashCode()))){
+        if(!super.isTableExisting(getCreatedName())){
             super.createLogTable();
             tableName = super.getTableName();
         }
@@ -197,7 +197,7 @@ public class DBManager extends TableBuilder {
      * @return returns .hashCode() of the created table
      */
     public String getCreatedName(){
-        return Integer.toString(super.buildCreateTableQuery().hashCode());
+        return super.buildName();
     }
 
     /**
@@ -221,5 +221,9 @@ public class DBManager extends TableBuilder {
     public void AddMarkersManually(String marker){
         markers.addMarker(marker);
     }
+
+
+
+
 
 }

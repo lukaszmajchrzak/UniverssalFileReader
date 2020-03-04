@@ -89,12 +89,16 @@ public class TableBuilder extends DbConnect {
      * @return query string which will be used for SQL Create table query
      */
     protected String buildCreateTableQuery() {
-        System.out.println(records.entrySet());
+//        System.out.println(records.entrySet());
         sortedRecords = sortRecords();
         String query = "";
-        System.out.println(sortedRecords.entrySet());
+        int i=0;
+//        System.out.println(sortedRecords.entrySet());
         for (Map.Entry<String, String> entry : sortedRecords.entrySet()) {
+            if(i!=0)
+                query.concat(",");
             query += entry.getKey() + " " + entry.getValue();
+            i++;
         }
         return query;
     }
@@ -160,8 +164,8 @@ public class TableBuilder extends DbConnect {
         super.connect();
         try {
             Statement stmt = super.con.createStatement();
-            System.out.println("CREATE TABLE db." + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
-            stmt.executeUpdate("CREATE TABLE db." + Integer.toString(buildCreateTableQuery().hashCode()) + " (" + buildCreateTableQuery() + " );");
+            System.out.println("CREATE TABLE db." + buildName() + " (" + buildCreateTableQuery() + " );");
+            stmt.executeUpdate("CREATE TABLE db." + buildName() + " (" + buildCreateTableQuery() + " );");
             this.tableName = Integer.toString(buildCreateTableQuery().hashCode());
            return true;
         } catch (SQLException e) {
@@ -169,6 +173,20 @@ public class TableBuilder extends DbConnect {
         }
         return false;
     }
+
+    /**
+     * <p> Method creates table name from column names</p>
+     * @return table name
+     */
+    protected String buildName(){
+        String name="";
+        for(String s: getSortedRecords().keySet()){
+            name.concat(s);
+        }
+        System.out.println("name:" + name);
+        return name;
+    }
+
     /**
      * <p> Method creates log table using pre-built query
      * query is built from records (sorted alphabetically). Table name is typed by user.
