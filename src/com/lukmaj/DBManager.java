@@ -143,8 +143,8 @@ public class DBManager extends TableBuilder {
                     System.out.println("Choose data type: ");
                     dType = scan.nextLine();
 
-                    if (super.getDataType().containsKey(dType)) {
-                        super.addRecords(scanning, getDataType().get(dType));
+                    if (super.getDataType().containsKey(dType.toUpperCase())) {
+                        super.addRecords(scanning, getDataType().get(dType.toUpperCase()));
                     } else System.out.println("data type not found");
                 } else System.out.println("Marker not found!");
 
@@ -158,9 +158,9 @@ public class DBManager extends TableBuilder {
         int i=0;
         for(String marker : markers.getMarkers()){
             if(!super.recordsContains(marker))
-                System.out.print(marker + " ");
+                System.out.print(marker + "; ");
             if(i% 5 == 0){
-                System.out.println("");
+                System.out.println();
             }
             i++;
         }

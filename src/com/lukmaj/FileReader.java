@@ -37,11 +37,7 @@ public class FileReader extends TimerTask {
                 records.put(s,doc.getElementsByTagName(s).item(0).getTextContent());
 
             }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
         return records;

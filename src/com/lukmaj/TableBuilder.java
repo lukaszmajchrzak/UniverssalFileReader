@@ -20,12 +20,12 @@ public class TableBuilder extends DbConnect {
 
 
     private void setdataTypes() {
-        dataTypes.put("Integer", "int");
-        dataTypes.put("Float", "float");
-        dataTypes.put("Date", "DATE");
+        dataTypes.put("INTEGER", "int");
+        dataTypes.put("FLOAT", "float");
+        dataTypes.put("DATE", "DATE");
         dataTypes.put("TIME", "TIME");
         dataTypes.put("TIMESTAMP", "TIMESTAMP");
-        dataTypes.put("Char", "CHAR");
+        dataTypes.put("CHAR", "CHAR");
         dataTypes.put("STRING", "VARCHAR(255)");
     }
     public Map<String,String> getDataType(){
@@ -71,7 +71,6 @@ public class TableBuilder extends DbConnect {
                         toMap(e -> e.getKey(), e -> e.getValue(),
                                 (e1, e2) -> e2, LinkedHashMap::new)
                 );
-        System.out.println(sorted.entrySet());
         return sorted;
     }
 
@@ -94,12 +93,13 @@ public class TableBuilder extends DbConnect {
         String query = "";
         int i=0;
 //        System.out.println(sortedRecords.entrySet());
-        for (Map.Entry<String, String> entry : sortedRecords.entrySet()) {
+        for (Map.Entry<String, String> entry : this.getSortedRecords().entrySet()) {
             if(i!=0)
-                query.concat(",");
+                query+=(", ");
             query += entry.getKey() + " " + entry.getValue();
             i++;
         }
+        System.out.println(query + " : " + i);
         return query;
     }
     protected void getExistingLogTable(String tableName){
@@ -165,7 +165,7 @@ public class TableBuilder extends DbConnect {
         try {
             Statement stmt = super.con.createStatement();
             System.out.println("CREATE TABLE db." + buildName() + " (" + buildCreateTableQuery() + " );");
-            stmt.executeUpdate("CREATE TABLE db." + buildName() + " (" + buildCreateTableQuery() + " );");
+            stmt.executeUpdate("CREATE TABLE db." + buildName() + " (" + buildCreateTableQuery() + ");");
             this.tableName = Integer.toString(buildCreateTableQuery().hashCode());
            return true;
         } catch (SQLException e) {
@@ -180,8 +180,8 @@ public class TableBuilder extends DbConnect {
      */
     protected String buildName(){
         String name="";
-        for(String s: getSortedRecords().keySet()){
-            name.concat(s);
+        for(HashMap.Entry<String,String> s : this.getSortedRecords().entrySet()){
+            name += s.getKey();
         }
         System.out.println("name:" + name);
         return name;
