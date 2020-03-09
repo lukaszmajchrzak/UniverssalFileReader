@@ -50,8 +50,8 @@ public class Markers {
         String[] s = new String[markers.size()];
         int i=0;
         for(String m : markers){
-            i++;
             s[i] = m;
+            i++;
         }
         return s;
     }

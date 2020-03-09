@@ -32,6 +32,7 @@ public class CommandList {
         commandList.add(new Command("HELP","Shows help"));
         commandList.add(new Command("GET PATH","Raed path from the server"));
         commandList.add(new Command("SET PATH","Sets path"));
+        commandList.add(new Command("READ FILES","Read files once"));
     }
     public ArrayList<Command> getCommandList(){
         return new ArrayList<>(commandList);

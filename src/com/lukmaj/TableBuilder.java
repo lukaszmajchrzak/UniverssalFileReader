@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Map.Entry.comparingByKey;
 import static java.util.stream.Collectors.toMap;
@@ -17,7 +18,6 @@ public class TableBuilder extends DbConnect {
     public TableBuilder() {
         setdataTypes();
     }
-
 
     private void setdataTypes() {
         dataTypes.put("INTEGER", "int");
@@ -61,7 +61,7 @@ public class TableBuilder extends DbConnect {
     }
 
     private Map<String, String> sortRecords() {
-        System.out.println(records.entrySet());
+//        System.out.println(records.entrySet());
 
         Map<String, String> sorted = records
                 .entrySet()
@@ -106,9 +106,9 @@ public class TableBuilder extends DbConnect {
         super.connect();
         try{
             Statement stmt = super.con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='"+tableName+"'");
+            ResultSet rs = stmt.executeQuery("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='"+tableName+"'");
             while(rs.next()){
-                System.out.println(rs);
+                System.out.println(rs.getString(1));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -141,9 +141,9 @@ public class TableBuilder extends DbConnect {
         super.connect();
         try{
             Statement stmt = super.con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM INFROMATION_SCHEMA.TABLES");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM INFOrMATION_SCHEMA.TABLES where TABLE_SCHEMA='db'");
             while(rs.next()){
-                if(!rs.getString(1).toUpperCase().equals("CONFIG")) {
+                if(!rs.getString(1).equalsIgnoreCase("CONFIG")) {
                     System.out.println(rs.getString(1));
                     getExistingLogTable(rs.getString(1));
                 }
@@ -222,8 +222,9 @@ public class TableBuilder extends DbConnect {
     public boolean isTableExisting(String tableName){
         try{
             Statement stmt = super.con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES");
+            ResultSet rs = stmt.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
             while(rs.next()){
+//                System.out.println(rs.getString(1));
                 if(rs.getString(1).equals(tableName))
                     return true;
             }

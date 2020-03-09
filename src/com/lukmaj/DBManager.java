@@ -37,7 +37,9 @@ public class DBManager extends TableBuilder {
             logContainer.put(markers,"");
         }
     }
-
+    public void putToDatabaseT(HashMap<String,String> logContainer){
+        super.putToDatabase(logContainer,this.tableName);
+    }
     /**
      *
      * @return true if hashmap logContainer is empty
@@ -221,7 +223,6 @@ public class DBManager extends TableBuilder {
     public void AddMarkersManually(String marker){
         markers.addMarker(marker);
     }
-
 
 
 

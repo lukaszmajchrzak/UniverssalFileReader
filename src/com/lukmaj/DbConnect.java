@@ -68,6 +68,7 @@ public class DbConnect {
         return query;
     }
     protected boolean putToDatabase(HashMap<String,String> logContainer,String tableName){
+        this.connect();
         String query[] = buildQuery(logContainer);
         try{
             Statement stmt = this.con.createStatement();

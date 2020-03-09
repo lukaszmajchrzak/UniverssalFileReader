@@ -23,14 +23,15 @@ public class Main {
         MarkersReader markersReader = new MarkersReader();
         CommandList commands = new CommandList();
         path.readPath();
-
+        FileReader fReader = new FileReader(path,markers);
+        JobScheduler job = new JobScheduler(path,markers);
         System.out.println("current path: " + path.getPath());
         boolean isRunning = false;
 
         // loop for command listening
         while(true){
             isCmd = false;
-            JobScheduler job = new JobScheduler(path,markers);
+
             cmd = scan.nextLine();
             sCat ="";
             cmdSplit = cmd.split(" ");
@@ -110,7 +111,7 @@ public class Main {
                         }
                         break;
                     case 9:
-//                        commandList.put("SET LOGGING","Sets which values will be shown from logs");
+//                        "SET LOGGING","Sets which values will be shown from logs"
                         dbManager.setLogContainer(dbManager.prepareLogPrinter());
                         break;
                     case 10:
@@ -121,12 +122,12 @@ public class Main {
                         dbManager.getLogs(dbManager.getLogContainer(),dbManager.getTableName());
                         break;
                     case 11:
-//                        commandList.put("SHOW SELECTED COLUMNS","Shows selected columns for logging");
+//                      "SHOW SELECTED COLUMNS","Shows selected columns for logging"
                         dbManager.loadLogContainer();
                         dbManager.printLogContainer();
                         break;
                     case 12:
-//                        commandList.put("CREATE SOA SCHEMA","Creates schema for further use with custom name");
+//                     "CREATE SOA SCHEMA","Creates schema for further use with custom name"
                         String s;
                         System.out.println("Provide custom table name: ");
                         s = scan.nextLine();
@@ -135,23 +136,23 @@ public class Main {
                         dbManager.createSoaPreparedTable(s);
                         break;
                     case 13:
-//                        commandList.put("CLEAR TAGS CONTAINER","Clears XML tags used for table usage/creation");
+//                       "CLEAR TAGS CONTAINER","Clears XML tags used for table usage/creation"
                         dbManager.clearLogCoontainer();
                         break;
                     case 14:
-//                        commandList.put("CLEAR LOGS","Deletes all logs from the database");
+//                      "CLEAR LOGS","Deletes all logs from the database"
                         dbManager.deleteLogs();
                         break;
                     case 15:
-//                        commandList.put("?","Shows help");
+//                        "?","Shows help"
                         commands.printCommands();
                         break;
                     case 16:
-//                        commandList.put("HELP","Shows help");
+//                        "HELP","Shows help"
                         commands.printCommands();
                         break;
                     case 17:
-//                        commandList.put("GET PATH","Raed path from the server");
+//                       "GET PATH","Raed path from the server"
                         System.out.println(path.getPath());
                         break;
                     case 18:
@@ -163,6 +164,10 @@ public class Main {
                             System.out.println("Path Updated!");
                             path.readPath();
                         } else System.out.println("Wrong path!");
+                        break;
+                    case 19:
+//                        "READ FILES","Read files once
+                            dbManager.putToDatabaseT(fReader.readFiles());
                         break;
                 }
 
