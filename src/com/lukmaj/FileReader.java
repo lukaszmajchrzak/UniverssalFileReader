@@ -14,26 +14,31 @@ import java.util.TimerTask;
 public class FileReader extends TimerTask {
     private Path path;
     private Markers markers;
+    private DBManager dbManager;
 
-    public FileReader(Path path, Markers markers) {
+    public FileReader(Path path, DBManager dbManager) {
         this.path = path;
-        this.markers = markers;
+        this.dbManager = dbManager;
     }
 
     @Override
     public void run() {
-        readFiles(path.getPath(),markers.toArray());
+        readFiles(path.getPath(), (dbManager.getSortedRecords().keySet().toArray()));
     }
 
-    public HashMap<String,String> readFiles(String pathname, String tags[]) {
+    public HashMap<String,String> readFiles(String pathname, Object tags[]) {
         HashMap<String,String> records = new HashMap<>();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = factory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new File(pathname));
-            for(String s : tags){
-                records.put(s,doc.getElementsByTagName(s).item(0).getTextContent());
 
+            File files = new File(pathname);
+            for(String f : files.list()) {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = factory.newDocumentBuilder();
+                Document doc = dBuilder.parse(new File(pathname + ((char) 92) + f));
+                for (Object s : tags) {
+                    records.put(s.toString(), doc.getElementsByTagName(s.toString()).item(0).getTextContent());
+
+                }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
@@ -43,15 +48,22 @@ public class FileReader extends TimerTask {
 
     public HashMap<String,String> readFiles() {
         String pathname = this.path.getPath();
-        String tags[] = markers.toArray();
+        Object tags[] = dbManager.getSortedRecords().keySet().toArray();
         HashMap<String,String> records = new HashMap<>();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = factory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new File(pathname));
-            for(String s : tags){
-                records.put(s,doc.getElementsByTagName(s).item(0).getTextContent());
 
+            File files = new File(pathname);
+            for(String f : files.list()) {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = factory.newDocumentBuilder();
+                Document doc = dBuilder.parse(new File(pathname + ((char) 92) + f));
+                for (Object s : tags) {
+//                    System.out.println(s.toString());
+                    if(doc.getElementsByTagName(s.toString()).item(0).getTextContent() != null) {
+                        System.out.println(s.toString() + " " +  doc.getElementsByTagName(s.toString()).item(0).getTextContent());
+                        records.put(s.toString(), doc.getElementsByTagName(s.toString()).item(0).getTextContent());
+                    }
+                }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();

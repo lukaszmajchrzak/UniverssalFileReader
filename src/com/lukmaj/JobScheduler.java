@@ -5,14 +5,15 @@ import java.util.Timer;
 public class JobScheduler {
     private Path path;
     private Markers markers;
+    private DBManager dbManager;
 
-    public JobScheduler(Path path, Markers markers) {
+    public JobScheduler(Path path, DBManager dbManager) {
         this.path = path;
-        this.markers = markers;
+        this.dbManager = dbManager;
     }
 
     private Timer t = new Timer();
-    private FileReader fileReader = new FileReader(path,markers);
+    private FileReader fileReader = new FileReader(path,dbManager);
 
 
     public void run(){

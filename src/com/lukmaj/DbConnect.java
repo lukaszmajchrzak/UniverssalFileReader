@@ -61,9 +61,10 @@ public class DbConnect {
 
     private String[] buildQuery(HashMap<String,String> logContainer){
         String query[] = new String[2];
+        int i=0;
         for(HashMap.Entry<String,String> entry : logContainer.entrySet()){
-            query[1] = "'" + entry.getKey() + "'" + ",";
-            query[2] = "'" + entry.getValue() + "'" + ",";
+            query[0] = "'" + entry.getKey() + "'" + ",";
+            query[1] = "'" + entry.getValue() + "'";
         }
         return query;
     }
@@ -72,7 +73,7 @@ public class DbConnect {
         String query[] = buildQuery(logContainer);
         try{
             Statement stmt = this.con.createStatement();
-            stmt.executeQuery("INSERT INTO" + tableName + "(" + query[0] + ") VALUES(" + query[1] + ")");
+            stmt.executeUpdate("INSERT INTO" + tableName + "(" + query[0] + ") VALUES(" + query[1] + ")");
             return true;
         } catch(SQLIntegrityConstraintViolationException e){
             System.out.println("Log already exist in DB");

@@ -23,8 +23,8 @@ public class Main {
         MarkersReader markersReader = new MarkersReader();
         CommandList commands = new CommandList();
         path.readPath();
-        FileReader fReader = new FileReader(path,markers);
-        JobScheduler job = new JobScheduler(path,markers);
+        FileReader fReader = new FileReader(path,dbManager);
+        JobScheduler job = new JobScheduler(path,dbManager);
         System.out.println("current path: " + path.getPath());
         boolean isRunning = false;
 
