@@ -1,11 +1,17 @@
 package com.lukmaj;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.sql.*;
 import java.util.HashMap;
 
 public class DbConnect {
     protected Connection con;
+    private ConnectionReader connectionReader=new ConnectionReader();
 
+    public DbConnect(ConnectionReader connectionReader) {
+        this.connectionReader = connectionReader;
+    }
 
     /**
      * <p> Method connects to database using connection string typed in connectionString.xml file
@@ -13,13 +19,15 @@ public class DbConnect {
      * to read the file method runs ConnectionReader.readConnectionString()</p>
      */
     public void connect() {
-        ConnectionReader conReader = new ConnectionReader();
-        conReader.readConnectionString();
         try {
-//            this.con = DriverManager.getConnection(conReader.getAddress(), conReader.getUsername(), conReader.getPassword());
-              this.con =DriverManager.getConnection("jdbc:mysql://10.13.135.10:3306/db", "LukMaj", "LukMaj123$%^");
+
+            connectionReader.setFilePath(FileSystems.getDefault().getPath("C:\\Users\\Lukmaj\\Desktop\\dbConnect.xml"));
+            String connectionString = connectionReader.getConnectionURL();
+            String username = connectionReader.getUsername();
+            String password = connectionReader.getPassword();
+            this.con = DriverManager.getConnection(connectionString,username,password);
         } catch (SQLException e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 
